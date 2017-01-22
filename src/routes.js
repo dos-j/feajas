@@ -1,5 +1,4 @@
 export default {
-  '/': 'handler.root',
-
-  '/test': 'handler.test'
+  'GET /': 'handler.root',
+  'GET /test': 'handler.test'
 };  

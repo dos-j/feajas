@@ -1,24 +1,13 @@
 'use strict';
 
-require("source-map-support").install();
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
 var babelPolyfill = require('babel-polyfill');
-
-var app = function (config) {
-  if (!config.routes) {
-    throw new Error('Serenity config had no property "routes". The routes should be a key value object of route:serenityDependencyFunc');
-  }
-
-  if (!config.services) {
-    throw new Error('Serenity config had no property "services". Your root services file should be a function which registers dependencies with serenity');
-  }
-
-  console.log(config);
-}
+var app = _interopDefault(require('serenity-node'));
 
 var routes = {
-  '/': 'handler.root',
-
-  '/test': 'handler.test'
+  'GET /': 'handler.root',
+  'GET /test': 'handler.test'
 };
 
 var services = function (di) {
@@ -32,10 +21,20 @@ var services = function (di) {
       });
     };
   });
+
+  di.register('handler.test', [], function () {
+    return function (req, res) {
+
+      res.json({
+        success: 'test'
+      });
+    };
+  });
 }
 
-app({
+var engine = app({
   routes: routes,
   services: services
 });
-//# sourceMappingURL=server.js.map
+
+engine.listen(5000);

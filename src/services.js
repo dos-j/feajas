@@ -12,4 +12,15 @@ export default function(di) {
     } 
   );
 
+  di.register(
+    'handler.test',
+    [],
+    () => (req, res) => {
+
+      res.json({
+        success: 'test'
+      });
+    } 
+  );
+
 };
